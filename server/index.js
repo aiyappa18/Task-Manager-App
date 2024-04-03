@@ -9,7 +9,6 @@ import { errorHandler, routeNotFound } from "./middlewares/errorMiddleware.js";
 
 import routes from "./routes/index.js";
 
-const routes="";
 dotenv.config();
 
 dbConnection();

@@ -1,11 +1,23 @@
 import express from "express";
-import { loginUser, registerUser } from "../controllers/userController";
+import {
+  activateUserProfile,
+  changeUserPassword,
+  deleteUserProfile,
+  getNotificationsList,
+  getTeamList,
+  loginUser,
+  logoutUser,
+  markNotificationRead,
+  registerUser,
+  updateUserProfile,
+} from "../controllers/userController.js";
+import { isAdminRoute, protectRoute } from "../middlewares/authMiddleware.js";
 
-const router=express.Router();
+const router = express.Router();
 
-router.post("/register",registerUser);
-router.post("/login",loginUser)
-router.post("/logout",logoutUser)
+router.post("/register", registerUser);
+router.post("/login", loginUser);
+router.post("/logout", logoutUser);
 
 router.get("/get-team", protectRoute, isAdminRoute, getTeamList);
 router.get("/notifications", protectRoute, getNotificationsList);
