@@ -1,11 +1,14 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import ModalWrapper from "./ModalWrapper";
+import ModalWrapper from "./ModelWrapper";
 import { Dialog } from "@headlessui/react";
-import Textbox from "./Textbox";
+
 import Loading from "./Loader";
 import Button from "./Button";
+import TextBox from "./Textbox";
+
+
 
 const AddUser = ({ open, setOpen, userData }) => {
   let defaultValues = userData ?? {};
@@ -33,7 +36,7 @@ const AddUser = ({ open, setOpen, userData }) => {
             {userData ? "UPDATE PROFILE" : "ADD NEW USER"}
           </Dialog.Title>
           <div className='mt-2 flex flex-col gap-6'>
-            <Textbox
+            <TextBox
               placeholder='Full name'
               type='text'
               name='name'
@@ -44,7 +47,7 @@ const AddUser = ({ open, setOpen, userData }) => {
               })}
               error={errors.name ? errors.name.message : ""}
             />
-            <Textbox
+            <TextBox
               placeholder='Title'
               type='text'
               name='title'

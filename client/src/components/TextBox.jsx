@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 
 const TextBox = React.forwardRef(
-  ({ type, placeholder, label, className, name, error }, ref) => {
+  ({ type, placeholder, label, className, name, error, register }, ref) => {
     return (
       <div className="w-full flex flex-col gap-1">
         {label && (
@@ -17,6 +17,7 @@ const TextBox = React.forwardRef(
             placeholder={placeholder}
             ref={ref} // Assign ref directly to the input element
             aria-invalid={error ? 'true' : 'false'}
+            {...register(name)} // Register input field with react-hook-form
             className={clsx(
               'bg-transparent px-3 py-2.5 2xl:py-3 border border-gray-300 placeholder-gray-400 text-gray-900 outline-none text-base focus:ring-2 ring-blue-300',
               className
@@ -24,7 +25,7 @@ const TextBox = React.forwardRef(
           />
         </div>
         {error && (
-          <span className="text-xs text-[#f64949fe] mt-0.5">{error}</span>
+          <span className="text-xs text-[#f64949fe] mt-0.5">{error.message}</span>
         )}
       </div>
     );

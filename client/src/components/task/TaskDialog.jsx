@@ -8,7 +8,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { Menu, Transition } from "@headlessui/react";
 import AddTask from "./AddTask";
 import AddSubTask from "./AddSubTask";
-import ConfirmatioDialog from "../Dialogs";
+import ConfirmatioDialog from "../Dialog";
 
 const TaskDialog = ({ task }) => {
   const [open, setOpen] = useState(false);

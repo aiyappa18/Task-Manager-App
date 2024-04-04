@@ -11,10 +11,11 @@ import { Toaster } from "sonner";
 import SideBar from "./components/SideBar";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./components/Navbar";
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import { setOpenSidebar } from "./redux/slices/authSlice";
 import clsx from "clsx";
 import { IoClose } from "react-icons/io5";
+import { Transition } from "@headlessui/react";
 
 function Layout() {
   const { user } = useSelector((state) => state.auth);

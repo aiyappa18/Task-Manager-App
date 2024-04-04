@@ -6,13 +6,15 @@ export const registerUser = async (req, res) => {
   try {
     const { name, email, password, isAdmin, role, title } = req.body;
 
-    const userExist = await UserActivation.findOne({ email });
+    const userExist = await User.findOne({ email });
+
     if (userExist) {
-      res.status(400).json({
+      return res.status(400).json({
         status: false,
         message: "User already exists",
       });
     }
+
     const user = await User.create({
       name,
       email,
@@ -21,19 +23,33 @@ export const registerUser = async (req, res) => {
       role,
       title,
     });
-    if (user) {
-      isAdmin ? createJWT(res, user._id) : null;
-      user.password = undefined;
-      res.status(201).json(user);
-    } else {
-      return res
-        .status(400)
-        .json({ status: false, message: "Invlaid user data" });
+
+    if (!user) {
+      return res.status(400).json({
+        status: false,
+        message: "Invalid user data",
+      });
     }
+
+    // Only create JWT if user is admin
+    if (isAdmin) {
+      createJWT(res, user._id);
+    }
+
+    // Hide password before sending user data in response
+    user.password = undefined;
+
+    res.status(201).json({
+      status: true,
+      message: "User registered successfully",
+      user,
+    });
   } catch (error) {
-    return res
-      .status(400)
-      .json({ status: false, message: "Invalud user data" });
+    console.log(error);
+    return res.status(500).json({
+      status: false,
+      message: "Internal server error",
+    });
   }
 };
 

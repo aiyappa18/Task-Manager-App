@@ -6,13 +6,12 @@ import {
   MdKeyboardArrowUp,
   MdKeyboardDoubleArrowUp,
 } from "react-icons/md";
-import { toast } from "sonner";
 import { BGS, PRIOTITYSTYELS, TASK_TYPE, formatDate } from "../../utils";
 import clsx from "clsx";
 import { FaList } from "react-icons/fa";
 import UserInfo from "../UserInfo";
 import Button from "../Button";
-import ConfirmatioDialog from "../Dialogs";
+import ConfirmationDialog from "../Dialog";
 
 const ICONS = {
   high: <MdKeyboardDoubleArrowUp />,
@@ -29,7 +28,11 @@ const Table = ({ tasks }) => {
     setOpenDialog(true);
   };
 
-  const deleteHandler = () => {};
+  const deleteHandler = () => {
+    // Perform delete logic here based on the selected task ID
+    console.log("Deleting task with ID:", selected);
+    setOpenDialog(false); // Close the dialog after deletion
+  };
 
   const TableHeader = () => (
     <thead className="w-full border-b border-gray-300">
@@ -137,8 +140,8 @@ const Table = ({ tasks }) => {
         </div>
       </div>
 
-      {/* TODO */}
-      <ConfirmatioDialog
+      {/* Confirmation Dialog */}
+      <ConfirmationDialog
         open={openDialog}
         setOpen={setOpenDialog}
         onClick={deleteHandler}

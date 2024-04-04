@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import ModalWrapper from "../ModalWrapper";
+import ModalWrapper from "../ModelWrapper";
 import { Dialog } from "@headlessui/react";
-import Textbox from "../Textbox";
+
 import { useForm } from "react-hook-form";
 import UserList from "./UserList";
 import SelectList from "../SelectList";
 import { BiImages } from "react-icons/bi";
 import Button from "../Button";
+import TextBox from "../TextBox.jsx";
 
 const LISTS = ["TODO", "IN PROGRESS", "COMPLETED"];
 const PRIORIRY = ["HIGH", "MEDIUM", "NORMAL", "LOW"];
@@ -47,7 +48,7 @@ const AddTask = ({ open, setOpen }) => {
           </Dialog.Title>
 
           <div className="mt-2 flex flex-col gap-6">
-            <Textbox
+            <TextBox
               placeholder="Task Title"
               type="text"
               name="title"
@@ -68,7 +69,7 @@ const AddTask = ({ open, setOpen }) => {
               />
 
               <div className="w-full">
-                <Textbox
+                <TextBox
                   placeholder="Date"
                   type="date"
                   name="date"
@@ -92,7 +93,7 @@ const AddTask = ({ open, setOpen }) => {
 
               <div className="w-full flex items-center justify-center mt-4">
                 <label
-                  className="flex items-center gap-1 text-base text-ascent-2 hover:text-ascent-1 cursor-pointer my-4"
+                  className="flex items-center gap-1 text-base text-ascent-2 hover:text-ascent-2 cursor-pointer my-4"
                   htmlFor="imgUpload"
                 >
                   <input
