@@ -6,6 +6,8 @@ import { setCredentials } from "../redux/slices/authSlice";
 import TextBox from "../components/TextBox";
 import Button from "../components/Button";
 import { toast } from "sonner";
+import { useLoginMutation } from "../redux/slices/api/authApiSlice";
+import Loading from "../components/Loader";
 
 const Login = () => {
   const { user } = useSelector((state) => state.auth);
@@ -17,21 +19,27 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const submitHandler = async (data) => {
-    try {
-      dispatch(setCredentials(data));
-      navigate("/dashboard");
-    } catch (error) {
-      console.log(error);
-      toast.error(error?.data?.message || error.message);
-    }
-  };
+ const [login,{isLoading}]=useLoginMutation();
+
+ const submitHandler = async (data) => {
+  try {
+    const result = await login(data).unwrap();
+    dispatch(setCredentials(result));
+    navigate("/dashboard");
+  } catch (error) {
+    console.error("Login Error:", error);
+    console.log("Response Data:", error.response?.data); // Log response data if available
+    toast.error(error?.data?.message || error.message);
+  }
+};
+
+
 
   useEffect(() => {
     if (user) {
       navigate("/dashboard");
     }
-  }, [user, navigate]);
+  }, [user]);
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center flex-col lg:flex-row bg-[#f3f4f6]">
@@ -75,7 +83,9 @@ const Login = () => {
                 name="email"
                 label="Email Address"
                 className="w-full rounded-full"
-                register={register} // Pass the register function
+                register={register("email", {
+                  required: "Email Address is required!",
+                })} // Pass the register function
                 error={errors.email} // Pass the error message from react-hook-form
               />
 
@@ -85,7 +95,9 @@ const Login = () => {
                 name="password"
                 label="Password"
                 className="w-full rounded-full"
-                register={register} // Pass the register function
+                register={register("password", {
+                  required: "Password is required!",
+                })} // Pass the register function
                 error={errors.password} // Pass the error message from react-hook-form
               />
 
@@ -93,11 +105,11 @@ const Login = () => {
                 Forget Password?
               </span>
 
-              <Button
-                type="submit"
-                label="Submit"
-                className="w-full h-10 bg-blue-700 text-white rounded-full"
-              />
+            {isLoading? <Loading/> :<Button
+              type="submit"
+              label="Submit"
+              className="w-full h-10 bg-blue-700 text-white rounded-full"
+            />}
             </div>
           </form>
         </div>

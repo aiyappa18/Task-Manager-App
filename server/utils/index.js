@@ -23,7 +23,7 @@ export const createJWT = (res, userId) => {
     const cookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", // Set to true in production
-      sameSite: "none",
+      sameSite: "strict",
       maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
     };
 

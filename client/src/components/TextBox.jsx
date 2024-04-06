@@ -15,9 +15,9 @@ const TextBox = React.forwardRef(
             type={type}
             name={name}
             placeholder={placeholder}
-            ref={ref} // Assign ref directly to the input element
+            ref={ref}
             aria-invalid={error ? 'true' : 'false'}
-            {...register(name)} // Register input field with react-hook-form
+            {...register}
             className={clsx(
               'bg-transparent px-3 py-2.5 2xl:py-3 border border-gray-300 placeholder-gray-400 text-gray-900 outline-none text-base focus:ring-2 ring-blue-300',
               className
