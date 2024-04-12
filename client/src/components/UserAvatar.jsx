@@ -8,6 +8,8 @@ import { getInitials } from "../utils"; // Import the getInitials function
 import {toast} from "sonner";
 import { useLogoutMutation } from "../redux/slices/api/authApiSlice";
 import { logout } from "../redux/slices/authSlice";
+import AddUser from "./AddUser";
+import ChangePassword from "./ChangePassword";
 const UserAvatar = () => {
   const [open, setOpen] = useState(false);
   const [openPassword, setOpenPassword] = useState(false);
@@ -29,7 +31,6 @@ const UserAvatar = () => {
 
   // Check if user name is available
   const initials = user?.name ? getInitials(user.name) : "";
-  console.log("Name is "+initials);
 
   return (
     <>
@@ -99,6 +100,8 @@ const UserAvatar = () => {
           </Transition>
         </Menu>
       </div>
+      <AddUser open={open} setOpen={setOpen} userData={user}/>
+      <ChangePassword open={openPassword} setOpen={setOpenPassword}/>
     </>
   );
 };

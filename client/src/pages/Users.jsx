@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Title from "../components/Title";
 import Button from "../components/Button";
 import { IoMdAdd } from "react-icons/io";
-import { summary } from "../assets/data";
+import {toast} from "sonner";
 import { getInitials } from "../utils";
 import clsx from "clsx";
 import ConfirmatioDialog, { UserAction } from "../components/Dialog";
@@ -28,15 +28,16 @@ const Users = () => {
         id:selected?._id
       });
       refetch();
+      toast.success("User  action success");
       setSelected(null);
       setTimeout(()=>{
         setOpenAction(false);
       },500);
-      toast.success(result.data.message);
+  
       
     } catch (error) {
       console.log(error);
-      toast.error(err?.data?.message || err.error);
+      toast.error(error?.data?.message || error.error);
     }
   };
   const deleteHandler = async () => {
@@ -44,22 +45,21 @@ const Users = () => {
       const result=await deleteUser(selected);
 
       refetch();
-      toast.success(res?.data?.message);
+      toast.success("Deleted successfully");
       setSelected(null);
       setTimeout(()=>{
         setOpenDialog(false);
       },500);
     } catch (error) {
-      console.log(err);
-      toast.error(err?.data?.message || err.error);
+      console.log(error);
+      toast.error(error?.data?.message || error.error);
     }
   };
 
  const userStatusClick=(el)=>{
-  setSelected(open);
-  setOpen(true);
+  setSelected(el);
+  setOpenAction(true);
  }
-  console.log(data);
 
   const deleteClick = (id) => {
     setSelected(id);
