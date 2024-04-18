@@ -12,6 +12,9 @@ import { FaList } from "react-icons/fa";
 import UserInfo from "../UserInfo";
 import Button from "../Button";
 import ConfirmationDialog from "../Dialog";
+import { useTrashTaskMutation } from "../../redux/slices/api/taskApiSlice";
+import { toast } from "sonner";
+import AddTask from "./AddTask";
 
 const ICONS = {
   high: <MdKeyboardDoubleArrowUp />,
@@ -22,16 +25,36 @@ const ICONS = {
 const Table = ({ tasks }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [openEdit, setOpenEdit] = useState(false);
 
+  const [trashTask] = useTrashTaskMutation();
+  
   const deleteClicks = (id) => {
     setSelected(id);
     setOpenDialog(true);
   };
 
-  const deleteHandler = () => {
-    // Perform delete logic here based on the selected task ID
-    console.log("Deleting task with ID:", selected);
-    setOpenDialog(false); // Close the dialog after deletion
+  const editTaskHandler = (el) => {
+    setSelected(el);
+    setOpenEdit(true);
+  };
+
+  const deleteHandler = async () => {
+    try {
+      const result = await trashTask({
+        id: selected,
+        isTrash: "trash",
+      }).unwrap();
+      toast.success("Delete Successfully");
+
+      setTimeout(() => {
+        setOpenDialog(false);
+        window.location.reload();
+      }, 500);
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.data?.message || err.error);
+    }
   };
 
   const TableHeader = () => (
@@ -114,6 +137,7 @@ const Table = ({ tasks }) => {
           className="text-blue-600 hover:text-blue-500 sm:px-0 text-sm md:text-base"
           label="Edit"
           type="button"
+          onClick={() => editTaskHandler(task)}
         />
 
         <Button
@@ -145,6 +169,12 @@ const Table = ({ tasks }) => {
         open={openDialog}
         setOpen={setOpenDialog}
         onClick={deleteHandler}
+      />
+      <AddTask
+        open={openEdit}
+        setOpen={setOpenEdit}
+        task={selected}
+        key={new Date().getTime()}
       />
     </>
   );

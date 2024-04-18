@@ -7,7 +7,7 @@ import { MdCheck } from "react-icons/md";
 import {useGetTeamListQuery} from "../../redux/slices/api/userApiSlice.js";
 
 const UserList = ({ setTeam, team }) => {
-  const {data}=useGetTeamListQuery();
+  const {data,isLoading}=useGetTeamListQuery();
   const [selectedUsers, setSelectedUsers] = useState([]);
 
   const handleChange = (el) => {
@@ -20,7 +20,7 @@ const UserList = ({ setTeam, team }) => {
     } else {
       setSelectedUsers(team);
     }
-  }, []);
+  }, [isLoading]);
 
   return (
     <div>
